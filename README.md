@@ -1,6 +1,7 @@
 # Weapons
 
-Plugin para a criação de armas e atribuí-las características especiais.
+Plugin para a criação de armas com características especiais. São separadas em seis raridades *(comum, incomum, raro, épico, mítico, lendário)*.
+*Com seu desenvolvimento dois a três dias, foi utilizado sem problemas maiores até o fechamento dos servidores do FinalElite.*
 
 **Autor do código: Willian Gois / zMathi**
 
