@@ -1,0 +1,8 @@
+name: Weapons
+version: 1.0
+author: zMathi
+main: br.com.finalelite.weapons.Weapons
+api-version: 1.13
+
+commands:
+  weapons:
