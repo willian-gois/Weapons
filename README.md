@@ -1,6 +1,6 @@
 # Weapons
 
-> Nota: Projeto antigo refatorado para fins de de estudos e portfólio.
+> Nota: Projeto antigo refatorado para fins de estudos e portfólio.
 
 Plugin para a criação de armas com características especiais. São separadas em seis raridades *(comum, incomum, raro, épico, mítico, lendário)*.
 *Com seu desenvolvimento dois a três dias, foi utilizado até o fechamento dos servidores do FinalElite.*
