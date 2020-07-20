@@ -1,12 +1,13 @@
 # Weapons
 
+> Nota: Projeto antigo refatorado para fins de de estudos e portfólio.
+
 Plugin para a criação de armas com características especiais. São separadas em seis raridades *(comum, incomum, raro, épico, mítico, lendário)*.
 *Com seu desenvolvimento dois a três dias, foi utilizado até o fechamento dos servidores do FinalElite.*
 
 **Autor do código: Willian Gois / zMathi**
 
 ## Lista de armas exemplares
-Cada categoria tem no mínimo seis armas diferentes, uma para cada raridade.
 
 ### Espadas
 - Espada Cega (Incomum) - Chance de dar cegueira ao inimigo por 3 segundos. *[+0.25 de chance a cada nível]*
@@ -27,7 +28,7 @@ Cada categoria tem no mínimo seis armas diferentes, uma para cada raridade.
 - Botas de Água (Comum) - Chance de não ficar em fogo caso o inimigo tenha aspecto flamejante. *[+0.40% de chance por nível]*
 
 ## Como usar
-Usando a API do plugin é possivel criar e obter armas.
+Através da API do plugin é possivel criar e obter armas.
 
 ### Criando e registrando uma arma
 
