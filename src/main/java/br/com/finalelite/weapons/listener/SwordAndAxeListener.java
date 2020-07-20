@@ -2,6 +2,7 @@ package br.com.finalelite.weapons.listener;
 
 import br.com.finalelite.weapons.Weapons;
 import br.com.finalelite.weapons.object.WeaponItem;
+import br.com.finalelite.weapons.util.Using;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -27,9 +28,9 @@ public class SwordAndAxeListener implements Listener {
         Player damager = (Player) event.getDamager();
         Entity victim = event.getEntity();
 
-        Optional<WeaponItem> weapon = Weapons.getWeapons().getWeaponManager().getUsingSwordOrAxe(damager);
+        Optional<WeaponItem> weapon = Using.getUsingSwordOrAxe(damager);
         if (weapon.isPresent())
-            weapon.get().getWeapon().getHandler().handle(damager, victim, weapon.get(), event);
+            weapon.get().getWeapon().handle(damager, victim, weapon.get(), event);
     }
 
     @EventHandler
@@ -39,10 +40,10 @@ public class SwordAndAxeListener implements Listener {
 
         if (player == null) return;
 
-        Optional<WeaponItem> weapon = Weapons.getWeapons().getWeaponManager().getUsingSwordOrAxe(player);
+        Optional<WeaponItem> weapon = Using.getUsingSwordOrAxe(player);
         if (weapon.isPresent()) {
 
-            /* Anti player free-kill system */
+            /* Breve sistema free-kill */
             if (victim instanceof Player) {
                 StringBuilder stringBuilder = new StringBuilder(weapon.get().getWeapon().getName()).append(":").append(victim.getName());
 
@@ -71,35 +72,23 @@ public class SwordAndAxeListener implements Listener {
                 return 4.5;
 
             case ENDERMAN:
-                return 4.0;
             case BLAZE:
-                return 4.0;
             case SLIME:
-                return 4.0;
             case MAGMA_CUBE:
-                return 4.0;
             case PIG_ZOMBIE:
                 return 4.0;
 
             case ZOMBIE:
-                return 3.0;
             case SKELETON:
-                return 3.0;
             case CAVE_SPIDER:
-                return 3.0;
             case CREEPER:
-                return 3.0;
             case POLAR_BEAR:
                 return 3.0;
 
             case COW:
-                return 2.0;
             case PIG:
-                return 2.0;
             case CHICKEN:
-                return 2.0;
             case SHEEP:
-                return 2.0;
             case RABBIT:
                 return 2.0;
 

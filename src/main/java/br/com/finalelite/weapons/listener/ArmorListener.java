@@ -1,7 +1,7 @@
 package br.com.finalelite.weapons.listener;
 
-import br.com.finalelite.weapons.Weapons;
 import br.com.finalelite.weapons.object.WeaponItem;
+import br.com.finalelite.weapons.util.Using;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,13 +19,13 @@ public class ArmorListener implements Listener {
     public void onEntityDamageEntity(EntityDamageByEntityEvent event) {
         if (event.isCancelled() || !(event.getEntity() instanceof Player)) return;
 
-        Entity damager = event.getDamager();
+        Entity attacker = event.getDamager();
         Player victim = (Player) event.getEntity();
 
-        Set<WeaponItem> weapons = Weapons.getWeapons().getWeaponManager().getUsingArmors(victim);
+        Set<WeaponItem> weapons = Using.getUsingArmors(victim);
         if (!weapons.isEmpty()) {
             for (WeaponItem weapon : weapons) {
-                weapon.getWeapon().getHandler().handle(victim, damager, weapon, event);
+                weapon.getWeapon().handle(victim, attacker, weapon, event);
 
                 weapon.addXP(event.getDamage());
                 weapon.save();

@@ -1,6 +1,6 @@
 package br.com.finalelite.weapons.util;
 
-import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 
@@ -9,14 +9,14 @@ import java.util.Random;
  */
 public class Chance<V> {
 
-    private final Random random;
+    private static final Random RANDOM;
 
-    public Chance() {
-        this.random = new Random();
+    static {
+        RANDOM = new Random();
     }
 
-    public V getWinner(HashMap<V, NumberChance> values) {
-        int valueWinner = random.nextInt(100);
+    public V getWinner(Map<V, NumberChance> values) {
+        int valueWinner = RANDOM.nextInt(100);
         for (Entry<V, NumberChance> value : values.entrySet()) {
             if (valueWinner >= value.getValue().getNumberMin() && valueWinner <= value.getValue().getNumberMax()) {
                 return value.getKey();

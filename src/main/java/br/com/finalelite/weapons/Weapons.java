@@ -15,13 +15,14 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class Weapons extends JavaPlugin {
 
-    private WeaponManager weaponManager;
     private static Weapons weapons;
+
+    private WeaponManager weaponManager;
 
     @Override
     public void onEnable() {
         weapons = this;
-        weaponManager = new WeaponManager();
+        this.weaponManager = new WeaponManager();
         new CraftingManager();
 
         Bukkit.getPluginCommand("weapons").setExecutor(new WeaponsCommand());

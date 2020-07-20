@@ -1,7 +1,7 @@
 package br.com.finalelite.weapons.object;
 
 import br.com.finalelite.weapons.Weapons;
-import com.google.common.base.Preconditions;
+import br.com.finalelite.weapons.util.Text;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -13,10 +13,10 @@ import java.util.List;
  */
 public class WeaponItem {
 
-    private ItemStack item;
-    private Weapon weapon;
-    private Integer level;
-    private Double xp;
+    private final ItemStack item;
+    private final Weapon weapon;
+    private int level;
+    private double xp;
 
     public WeaponItem(ItemStack item, Weapon weapon) {
         this.item = item;
@@ -28,8 +28,8 @@ public class WeaponItem {
             String lore = item.getItemMeta().getLore().get(i);
 
             if (lore.startsWith(Weapon.LINE_LEVEL)) {
-                this.level = Integer.valueOf(lore.split(Weapon.LINE_LEVEL)[1].split("/")[0]);
-                this.xp = Double.valueOf(lore.split("[\\\\(\\\\)]")[1].split("/")[0]);
+                this.level = Integer.parseInt(lore.split(Weapon.LINE_LEVEL)[1].split("/")[0]);
+                this.xp = Double.parseDouble(lore.split("[\\\\(\\\\)]")[1].split("/")[0]);
             }
         }
     }
@@ -81,25 +81,24 @@ public class WeaponItem {
     }
 
     public void save() {
-        ItemMeta meta = item.getItemMeta();
-        List<String> lores = meta.getLore();
+        ItemMeta meta = this.item.getItemMeta();
+        List<String> lore = meta.getLore();
 
-        for (int i = item.getItemMeta().getLore().size() - 1; i > 0; i--) {
-            String lore = item.getItemMeta().getLore().get(i);
+        for (int i = this.item.getItemMeta().getLore().size() - 1; i > 0; i--) {
+            String line = this.item.getItemMeta().getLore().get(i);
 
-            if (lore.startsWith(Weapon.LINE_LEVEL)) {
-                StringBuilder builder = new StringBuilder(Weapon.LINE_LEVEL);
-                builder.append(getLevel()).append("/100");
-                builder.append(" §8(").append(getXP()).append("/").append((this.level * Weapon.XP_MULTIPLIER_PER_LEVEL)).append(") XP");
+            if (line.startsWith(Weapon.LINE_LEVEL)) {
+                String builder = Weapon.LINE_LEVEL + getLevel() + "/100" +
+                        " &8(" + getXP() + "/" + (this.level * Weapon.XP_MULTIPLIER_PER_LEVEL) + ") XP";
 
-                lores.set(i, builder.toString());
-            } else if (lore.startsWith(Weapon.LINE_NEXT_LEVEL)) {
-                lores.set(i, new StringBuilder(Weapon.LINE_NEXT_LEVEL).append(getProgressBar(getXP(), (this.level * Weapon.XP_MULTIPLIER_PER_LEVEL))).toString());
+                lore.set(i, builder);
+            } else if (line.startsWith(Weapon.LINE_NEXT_LEVEL)) {
+                lore.set(i, Weapon.LINE_NEXT_LEVEL + getProgressBar(getXP(), (this.level * Weapon.XP_MULTIPLIER_PER_LEVEL)));
             }
         }
 
-        meta.setLore(lores);
-        item.setItemMeta(meta);
+        meta.setLore(lore);
+        this.item.setItemMeta(meta);
     }
 
     protected String getProgressBar(double value, double total) {
@@ -108,22 +107,22 @@ public class WeaponItem {
         double bars_equation = (10 / (BARS/10));
         double percentage = ((value * 100) / total);
         double percentage_bars = percentage / bars_equation;
-        StringBuilder builder = new StringBuilder("§7[");
+        StringBuilder builder = new StringBuilder("&7[");
 
         for (double i = 1.0; i < BARS; i++) {
             if (percentage_bars >= i) {
-                builder.append("§a┃");
+                builder.append("&a┃");
             } else {
-                builder.append("§8┃");
+                builder.append("&8┃");
             }
         }
-        builder.append("§7] ");
+        builder.append("&7] ");
 
         if (this.level >= 100 && this.xp >= (this.level * Weapon.XP_MULTIPLIER_PER_LEVEL)){
-            builder.append("§aCONCLUÍDO!");
+            builder.append("&aCONCLUÍDO!");
         }else{
             builder.append(ChatColor.WHITE).append(Math.round(percentage)).append("%");
         }
-        return builder.toString();
+        return Text.translate(builder.toString());
     }
 }

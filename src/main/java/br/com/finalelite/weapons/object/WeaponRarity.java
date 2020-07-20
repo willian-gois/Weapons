@@ -7,45 +7,48 @@ import org.bukkit.ChatColor;
  */
 public enum WeaponRarity {
 
-    COMMOM(0, "Comum", ChatColor.DARK_GRAY), UNCOMMOM(1, "Incomum", ChatColor.BLUE), RARE(2, "Raro", ChatColor.GREEN), EPIC(3, "Épico", ChatColor.DARK_PURPLE), MYTHICAL(4, "Mítico", ChatColor.RED), LEGENDARY(5, "LENDÁRIO", ChatColor.GOLD);
+    COMMOM("Comum", ChatColor.DARK_GRAY),
+    UNCOMMOM("Incomum", ChatColor.BLUE),
+    RARE("Raro", ChatColor.GREEN),
+    EPIC("Épico", ChatColor.DARK_PURPLE),
+    MYTHICAL("Mítico", ChatColor.RED),
+    LEGENDARY("LENDÁRIO", ChatColor.GOLD);
 
-    private Integer id;
     private String name;
     private ChatColor color;
 
-    WeaponRarity(Integer id, String name, ChatColor color) {
-        this.id = id;
+    WeaponRarity(String name, ChatColor color) {
         this.name = name;
         this.color = color;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getPriority() {
+        return this.ordinal();
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
-    public String getColoredName(){
-        return color + name;
+    public String getColoredName() {
+        return this.color + this.name;
     }
 
     public ChatColor getColor() {
-        return color;
+        return this.color;
     }
 
     public boolean bestThan(WeaponRarity rarity) {
-        return getId() > rarity.getId();
+        return getPriority() > rarity.getPriority();
     }
 
     public boolean bestOrEqualThan(WeaponRarity rarity) {
-        return getId() >= rarity.getId();
+        return getPriority() >= rarity.getPriority();
     }
 
-    public static WeaponRarity getRarityById(Integer id) {
+    public static WeaponRarity getRarityById(int id) {
         for (WeaponRarity rarities : values()) {
-            if (rarities.getId() == id) {
+            if (rarities.getPriority().equals(id)) {
                 return rarities;
             }
         }

@@ -1,6 +1,7 @@
 package br.com.finalelite.weapons.object;
 
 import br.com.finalelite.weapons.util.ItemBuilder;
+import br.com.finalelite.weapons.util.Text;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -10,43 +11,49 @@ import org.bukkit.inventory.ItemStack;
 public class Amulet {
 
     public static final Integer AMULET_MAX_USE = 5;
-    public static final String LINE_USES = " §7Usos restantes: §8";
+    public static final String LINE_USES = Text.translate(" &7Usos restantes: &8");
 
+    private final String id;
     private String name;
     private WeaponRarity rarity;
     private ItemStack item;
 
-    public Amulet(String name, WeaponRarity rarity) {
+    public Amulet(String id, String name, WeaponRarity rarity) {
+        this.id = id;
         this.name = name;
         this.rarity = rarity;
 
         ItemBuilder builder = new ItemBuilder(Material.END_CRYSTAL)
                 .name(String.format("%s%s", rarity.getColor(), name))
-                .lore(
-                        " §7Carregue esse amuleto durante",
-                        " §7o forjamento de equipamentos ",
-                        " §7e sua sorte irá aumentar: " + getRarity().getColor() + getLuckyByRarity(getRarity()) + "%",
+                .lore(Text.translate(
+                        " &7Carregue esse amuleto durante",
+                        " &7o forjamento de equipamentos ",
+                        " &7e sua sorte irá aumentar: " + getRarity().getColor() + getLuckyByRarity(getRarity()) + "%",
                         " ",
-                        " §e§n§oObs:§o§7 A cada amuleto carregado,",
-                        " §7sua eficiência é reduzida pela metade.",
+                        " &e&n&oObs:&o&7 A cada amuleto carregado,",
+                        " &7sua eficiência é reduzida pela metade.",
                         " ",
-                        " §7Raridade: " + getRarity().getColoredName(),
-                        LINE_USES + AMULET_MAX_USE);
+                        " &7Raridade: " + getRarity().getColoredName(),
+                        LINE_USES + AMULET_MAX_USE));
         if (rarity == WeaponRarity.LEGENDARY) builder.glowing();
 
         this.item = builder.build();
     }
 
+    public String getId() {
+        return this.id;
+    }
+
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public WeaponRarity getRarity() {
-        return rarity;
+        return this.rarity;
     }
 
     public ItemStack getItem() {
-        return item;
+        return this.item;
     }
 
     public static double getLuckyByRarity(WeaponRarity rarity) {

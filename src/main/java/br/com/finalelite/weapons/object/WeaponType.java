@@ -27,7 +27,7 @@ public enum WeaponType {
 
     public static WeaponType getWeaponType(Material material) {
         for (WeaponType types : values()) {
-            if (types.getDefaultMaterial() == material) {
+            if (types.getDefaultMaterial().equals(material)) {
                 return types;
             }
         }

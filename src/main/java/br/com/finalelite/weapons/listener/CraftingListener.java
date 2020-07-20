@@ -2,15 +2,11 @@ package br.com.finalelite.weapons.listener;
 
 import br.com.finalelite.weapons.Weapons;
 import br.com.finalelite.weapons.manager.CraftingManager;
-import br.com.finalelite.weapons.object.Amulet;
-import br.com.finalelite.weapons.object.AmuletItem;
-import br.com.finalelite.weapons.object.Weapon;
-import br.com.finalelite.weapons.object.WeaponItem;
-import br.com.finalelite.weapons.object.WeaponRarity;
-import br.com.finalelite.weapons.object.WeaponType;
+import br.com.finalelite.weapons.object.*;
 import br.com.finalelite.weapons.util.Chance;
 import br.com.finalelite.weapons.util.Chance.NumberChance;
 import br.com.finalelite.weapons.util.ItemBuilder;
+import br.com.finalelite.weapons.util.Text;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -25,6 +21,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -53,7 +50,7 @@ public class CraftingListener implements Listener {
 
                 List<Weapon> weapons = Weapons.getWeapons().getWeaponManager().getWeapons(WeaponType.getWeaponType(item.getType()), sortRarity(calculeLucky(player)));
                 if (weapons.isEmpty()) { /* Causado quando não há itens da raridade sorteada e do material do item criado. */
-                    player.sendMessage("§c(!) Ops! Parece que temos um problema interno :c. Entre em contato com um staffer.");
+                    player.sendMessage(Text.translate("&c(!) Ops! Parece que temos um problema interno :c. Entre em contato com um staffer."));
 
                     event.setResult(Result.DENY);
                     event.setCancelled(true);
@@ -71,7 +68,7 @@ public class CraftingListener implements Listener {
                 Random random = new Random();
                 if (random.nextInt(10) <= (PERCENTAGE_AMULET_FAIL / 100)) { /* Uma vez em quatro */
                     player.sendMessage(" ");
-                    player.sendMessage(String.format("%s%s", "§c(!) ", BOOM_MESSAGES[random.nextInt(BOOM_MESSAGES.length)]));
+                    player.sendMessage(Text.translate(String.format("%s%s", "&c(!) ", BOOM_MESSAGES[random.nextInt(BOOM_MESSAGES.length)])));
                     player.sendMessage(" ");
 
                     event.getInventory().setMatrix(new ItemStack[]{null, null, null, null, null, null, null, null, null});
@@ -82,15 +79,16 @@ public class CraftingListener implements Listener {
                 } else {
                     Amulet amulet = Weapons.getWeapons().getWeaponManager().getAmulet(sortRarity(0.0));
                     if (amulet == null) {
-                        player.sendMessage("§c(!) Ops! Parece que temos um problema interno :c. Entre em contato com um staffer.");
+                        player.sendMessage(Text.translate("&c(!) Ops! Parece que temos um problema interno :c. Entre em contato com um staffer."));
 
                         event.setResult(Result.DENY);
                         event.setCancelled(true);
                         return;
                     }
 
-                    if (amulet.getRarity().bestOrEqualThan(WeaponRarity.EPIC))
+                    if (amulet.getRarity().bestOrEqualThan(WeaponRarity.EPIC)) {
                         makeParticles(event.getInventory().getLocation());
+                    }
 
                     player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 5f, 10f);
                     event.getInventory().setResult(AmuletItem.of(new ItemBuilder(amulet.getItem()).unstackable().build()).getItem());
@@ -105,7 +103,7 @@ public class CraftingListener implements Listener {
                 event.setResult(Result.DENY);
                 event.setCancelled(true);
 
-                event.getWhoClicked().sendMessage("§c(!) Você não pode coletar esse item usando shift.");
+                event.getWhoClicked().sendMessage(Text.translate("&c(!) Você não pode coletar esse item usando shift."));
                 return true;
             } else if (event.getAction() == InventoryAction.NOTHING) {
                 event.setResult(Result.DENY);
@@ -134,9 +132,9 @@ public class CraftingListener implements Listener {
     }
 
     private WeaponRarity sortRarity(double lucky) {
-        /* TODO: Pensar em uma fórmula melhorar para o sistema de sorte. */
+        /* TODO: Melhorar para o sistema de sorte. */
 
-        HashMap<WeaponRarity, NumberChance> values = new HashMap<>();
+        Map<WeaponRarity, NumberChance> values = new HashMap<>();
         values.put(WeaponRarity.COMMOM, new NumberChance(0, 37 - lucky));                     /* 37% */
         values.put(WeaponRarity.UNCOMMOM, new NumberChance(38 - lucky, 66 - lucky * 2));      /* 28% */
         values.put(WeaponRarity.RARE, new NumberChance(67 - lucky * 2, 82 - lucky * 4));      /* 15% */
@@ -154,7 +152,6 @@ public class CraftingListener implements Listener {
             location.add(Math.cos(Math.toRadians(i)) * 1.5, 0.25, Math.sin(Math.toRadians(i)) * 1.5);
 
             location.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, location, 1);
-            //location.getWorld().spawnParticle(Particle.REDSTONE, location, 1, 0, 0, 0, new Particle.DustOptions(Color.GREEN, 1.0f));
         }
     }
 }
